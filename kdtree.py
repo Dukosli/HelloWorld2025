@@ -1,9 +1,5 @@
 import sys
 
-# Most important variable in the tree, indicates
-# max dimensionality of the k-d tree
-univDepth = 1
-
 class Node:
     def __init__(self, i_key, v_val):
         self.id = i_key
@@ -14,6 +10,8 @@ class Node:
 def newNode(in_key, vec_val):
     return Node(in_key, vec_val)
 
+# INPUT FORMAT:
+
 # Add nodes from dict format:
 # data_dict = {
 #     movie_1_id: [rating_value, genre_1_val, genre_2_val, etc.],
@@ -22,14 +20,38 @@ def newNode(in_key, vec_val):
 # }
 # Then, output list in form:
 # [[movie_1_id, vector], [movie_2_id, vector], ...]
+# Exclusively access points from index 1 of each list_out item
 def addNodes(dict_in, list_out):
     for key, value in dict_in.items():
+        # Value is the vector
         list_out.append(newNode(key, value))
+        
+# def getMovieByID(id_name_dict, iD):
+#     return id_name_dict[iD]
+        
+def buildTree(points, depth):
+    if not points:
+        return None
+    
+    k = len(points[0].point)
+    c_dim = depth % k
+    
+    sortByDepth(points, c_dim)
+    
+    median_ind = len(points) // 2
+    median_point = points[median_ind]
+    
+    median_point.left  = buildTree(points[:median_ind], depth + 1)
+    median_point.right = buildTree(points[median_ind + 1:], depth + 1)
+    
+    return median_point
 
 
 
 
-
+# EX: 
+# addNodes(dict_in, list_out)
+# buildTree(list_out, 0)
 
 # ------------------------------- MERGESORT ------------------------------- #
 
@@ -41,7 +63,7 @@ def addNodes(dict_in, list_out):
 
 # From G4G, change to sort by k-d depth at 
 # level to find median by dimension at every level
-def merge(arr, left, mid, right):
+def merge(arr, left, mid, right, axis):
     n1 = mid - left + 1
     n2 = right - mid
 
@@ -62,7 +84,7 @@ def merge(arr, left, mid, right):
     # Merge the temp arrays back
     # into arr[left..right]
     while i < n1 and j < n2:
-        if L[i][1] <= R[j][1]:
+        if L[i].point[axis] <= R[j].point[axis]:
             arr[k] = L[i]
             i += 1
         else:
@@ -82,21 +104,26 @@ def merge(arr, left, mid, right):
         k += 1
 
 # Head
-def mergeSort(arr, left, right):
+def mergeSort(arr, left, right, axis):
     if left < right:
         mid = (left + right) // 2
 
-        mergeSort(arr, left, mid)
-        mergeSort(arr, mid + 1, right)
-        merge(arr, left, mid, right)
+        mergeSort(arr, left, mid, axis)
+        mergeSort(arr, mid + 1, right, axis)
+        merge(arr, left, mid, right, axis)
         
 # Sort by depth, temp changes as passed by
-def sortByDepth(dict_in, temp, depth):
-    temp.clear()
+def sortByDepth(node_in, depth):
+    mergeSort(node_in, 0, len(node_in) - 1, depth)
     
-    for key, value in dict_in.items():
-        temp.append([key, value[depth]])
-        
-    mergeSort(temp, 0, len(temp) - 1)
-    
+# TESTING
+# nodes = []
+# nodes.append(newNode(1, [1,2]))
+# nodes.append(newNode(2, [10,3]))
+# nodes.append(newNode(3, [5,4]))
+
+# sortByDepth(nodes, 1)
+# for i in nodes:
+#     print(i.id, i.point)
+
 # ------------------------------- MERGESORT ------------------------------- #
