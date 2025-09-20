@@ -1,4 +1,3 @@
-import sys
 import heapq as hq
 import numpy as np
 
