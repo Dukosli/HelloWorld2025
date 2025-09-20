@@ -5,7 +5,6 @@
 
 
 # From G4G, change to sort by k-d depth
-
 def merge(arr, left, mid, right):
     n1 = mid - left + 1
     n2 = right - mid
@@ -27,7 +26,7 @@ def merge(arr, left, mid, right):
     # Merge the temp arrays back
     # into arr[left..right]
     while i < n1 and j < n2:
-        if L[i] <= R[j]:
+        if L[i][1] <= R[j][1]:
             arr[k] = L[i]
             i += 1
         else:
@@ -56,3 +55,25 @@ def mergeSort(arr, left, right):
         mergeSort(arr, left, mid)
         mergeSort(arr, mid + 1, right)
         merge(arr, left, mid, right)
+        
+def sortByDepth(dict_in, temp, depth):
+    temp = [0] * len(dict_in)
+    i = 0
+    
+    for key, value in dict_in.items():
+        temp[i] = [key, value[depth]]
+        i += 1
+        
+    mergeSort(temp, 0, len(temp) - 1)
+    for i in temp:
+        print(i)
+    
+newDict = {
+    1:[1,2,3],
+    3:[5,4,2],
+    2:[10,1,1] }
+
+tempor = []
+sortByDepth(newDict, tempor, 2)
+for i in tempor:
+    print(i[0] + " ")
