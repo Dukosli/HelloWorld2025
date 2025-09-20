@@ -191,7 +191,7 @@ def rkNN_id(dict_in, query, k):
 # for i in nodes:
 #     print(i.id, i.point)
 
-# Chat-generated test cases
+# # Chat-generated test cases
 # data_dict = {
 #   1: [8.44, 6.25, 2.10],
 #   2: [1.32, 9.87, 5.76],
@@ -224,7 +224,7 @@ def rkNN_id(dict_in, query, k):
 
 # # Print the constructed tree
 # printTree(root)
-# 
+
 
 # # Expect 1, 5, 7, 8, 4
 # for q in queries:
