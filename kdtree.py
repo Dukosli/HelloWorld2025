@@ -1,7 +1,42 @@
+import sys
+
+# Most important variable in the tree, indicates
+# max dimensionality of the k-d tree
+univDepth = 1
+
+class Node:
+    def __init__(self, i_key, v_val):
+        self.id = i_key
+        self.point = v_val
+        self.left = None
+        self.right = None
+        
+def newNode(in_key, vec_val):
+    return Node(in_key, vec_val)
+
+# Add nodes from dict format:
+# data_dict = {
+#     movie_1_id: [rating_value, genre_1_val, genre_2_val, etc.],
+#     movie_2_id: [rating_value, genre_1_val, genre_2_val, etc.],
+#     ...
+# }
+# Then, output list in form:
+# [[movie_1_id, vector], [movie_2_id, vector], ...]
+def addNodes(dict_in, list_out):
+    for key, value in dict_in.items():
+        list_out.append(newNode(key, value))
 
 
 
 
+
+
+# ------------------------------- MERGESORT ------------------------------- #
+
+# Below contains mergesort, pulled from G4G, with 
+# slight modification to the deployment to re-configure 
+# the array to be suitable for batch structurization
+# in the k-d tree rather than by-point insert.
 
 
 # From G4G, change to sort by k-d depth at 
@@ -63,3 +98,5 @@ def sortByDepth(dict_in, temp, depth):
         temp.append([key, value[depth]])
         
     mergeSort(temp, 0, len(temp) - 1)
+    
+# ------------------------------- MERGESORT ------------------------------- #
