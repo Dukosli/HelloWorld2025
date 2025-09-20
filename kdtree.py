@@ -29,18 +29,23 @@ def addNodes(dict_in, list_out):
 # def getMovieByID(id_name_dict, iD):
 #     return id_name_dict[iD]
         
+# Expect Node[], int input
 def buildTree(points, depth):
+    # Check if points is empty
     if not points:
         return None
     
+    # Gets current "depth" values, like which axis we are on
     k = len(points[0].point)
     c_dim = depth % k
     
+    # Expects Node[], int
     sortByDepth(points, c_dim)
     
     median_ind = len(points) // 2
     median_point = points[median_ind]
     
+    # Recursively builds the 
     median_point.left  = buildTree(points[:median_ind], depth + 1)
     median_point.right = buildTree(points[median_ind + 1:], depth + 1)
     
@@ -116,7 +121,9 @@ def mergeSort(arr, left, right, axis):
 def sortByDepth(node_in, depth):
     mergeSort(node_in, 0, len(node_in) - 1, depth)
     
-# TESTING
+    
+# ------------------------------- TESTING GROUNDS ------------------------------- #
+
 # nodes = []
 # nodes.append(newNode(1, [1,2]))
 # nodes.append(newNode(2, [10,3]))
@@ -126,4 +133,30 @@ def sortByDepth(node_in, depth):
 # for i in nodes:
 #     print(i.id, i.point)
 
-# ------------------------------- MERGESORT ------------------------------- #
+# data_dict = {
+#   1: [8.44, 6.25, 2.10],
+#   2: [1.32, 9.87, 5.76],
+#   3: [4.91, 3.45, 7.80],
+#   4: [9.65, 0.55, 1.10],
+#   5: [2.34, 6.78, 9.01],
+#   6: [7.12, 8.90, 4.56],
+#   7: [5.67, 2.22, 3.33],
+#   8: [3.11, 7.77, 0.99]
+# }
+
+# nams = []
+# addNodes(data_dict, nams)
+# root = buildTree(nams, 0)
+
+# # Chat generated print-assist
+# def printTree(node, depth=0):
+#     if node is None:
+#         return
+#     print("  " * depth + f"ID={node.id}, Point={node.point}")
+#     printTree(node.left, depth + 1)
+#     printTree(node.right, depth + 1)
+
+# # Print the constructed tree
+# printTree(root)
+    
+
