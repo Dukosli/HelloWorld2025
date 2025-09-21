@@ -140,7 +140,6 @@ def kNearestNeighbors(node, query, k, heap):
 # def mergeSort(arr, left, right, axis):
 #     if left < right:
 #         mid = (left + right) // 2
-
 #         mergeSort(arr, left, mid, axis)
 #         mergeSort(arr, mid + 1, right, axis)
 #         merge(arr, left, mid, right, axis)
