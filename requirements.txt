@@ -1,3 +1,4 @@
 streamlit>=1.36.0
 pandas>=2.2.0
 numpy>=2.3.3
+tmdbsimple>=2.9.1

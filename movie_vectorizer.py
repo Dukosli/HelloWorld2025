@@ -27,9 +27,15 @@ def movie_vectorizer(movie_id):
     single_movie = df[df['id'] == movie_id]
 
     movie_genres_str = single_movie['genre_ids'].iloc[0] # This gives movie_genres as a string, like "[878, 53]"
-    movie_genres_str = movie_genres_str[1:len(movie_genres_str)-2]
-    movie_genres_str_list = movie_genres_str.split(",")
-    movie_genres_int_list = [int(genre) for genre in movie_genres_str_list]
+    print(movie_genres_str)
+    if "," in movie_genres_str:
+        movie_genres_str = movie_genres_str[1:len(movie_genres_str)-2]
+        movie_genres_str_list = movie_genres_str.split(",")
+        movie_genres_int_list = [int(genre) for genre in movie_genres_str_list]
+    else: 
+        movie_genres_str = movie_genres_str[1:len(movie_genres_str)-2]
+        movie_genres_int_list = [int(movie_genres_str)] 
+    
 
     
     # Initialize all qualities
@@ -137,7 +143,7 @@ def movie_vectorizer(movie_id):
     
     return returned_vector
 
-print(movie_vectorizer(755898))
+print(movie_vectorizer(1038392))
 
 
 
