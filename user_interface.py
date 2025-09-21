@@ -29,33 +29,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<style>
-
-div[data-testid="stMarkdownContainer"] {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  white-space: normal !important;
-  line-height: 1.4;
-}
-</style>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<style>
-/* Ensure images don't overflow their column */
-.stImage img { max-width: 100% !important; height: auto !important; }
-
-/* Helper class for overviews */
-.overview {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-  white-space: normal !important;
-  line-height: 1.5;
-}
-</style>
-""", unsafe_allow_html=True)
-
 df = pd.read_csv("movies.csv")
 movie_list = df["title"].tolist()
 
@@ -141,7 +114,7 @@ if st.session_state["results"]:
             "title": "Demon Slayer: Infinity Castle",
             "rating": 7.7,
             "poster": "https://image.tmdb.org/t/p/w200/sUsVimPdA1l162FvdBIlmKBlWHx.jpg",
-            "overview": "The Demon Slayer Corps are drawn into the Infinity Castle, where Tanjiro, Nezuko, and the Hashira face terrifying Upper Rank demons..."
+            "overview": "The Demon Slayer Corps are drawn into the Infinity Castle, where Tanjiro, Nezuko, and the Hashira face terrifying Upper Rank demons in a desperate fight as the final battle against Muzan Kibutsuji begins."
         },
         {
             "title": "War of the Worlds",
@@ -170,15 +143,13 @@ if st.session_state["results"]:
     ]
 
     for movie in movies:
-        col1, col2 = st.columns([1, 4], vertical_alignment="top")
+        col1, col2 = st.columns([1, 4])
         with col1:
-            # Let the image size itself to the column width
             st.image(movie["poster"], use_container_width=True)
         with col2:
             st.markdown(f"**{movie['title']}**")
             st.markdown(f"⭐ Rating: {movie['rating']}/10")
-            # Force wrap on the overview
-            st.markdown(f"<div class='overview'>{movie['overview']}</div>", unsafe_allow_html=True)
+            st.markdown(f"{movie['overview']}")
         st.divider()
 
 
