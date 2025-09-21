@@ -77,9 +77,9 @@ def restart():
 st.title("Movie Recommender")
 
 st.write(
-    "#### Input the genres of movies you want to watch, "
-    "at least 2 movies you have watched from those genres, and your rating for each movie.\n"
-    "#### Once you have done this, we will recommend 5 movies that you might enjoy watching."
+    "#### Tell us what kinds of movies you’re in the mood for!\n"
+    "#### Pick a few genres, then add at least 2 movies you’ve seen from those genres along with your ratings.\n"
+    "#### Once you’re done, we’ll recommend 5 movies we think you’ll love."
 )
 
 genres = st.multiselect("Enter a genre:", [
@@ -88,14 +88,14 @@ genres = st.multiselect("Enter a genre:", [
     'History', 'Horror', 'Music', 'Mystery', 'Romance', 
     'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western'
     ], key="genre", disabled=st.session_state["locked"])
-# movie_name = st.selectbox("Enter a movie name:", movie_list, key="movie_name", disabled=st.session_state["locked"])
+
 movie_name = st.selectbox("Enter a movie name:", movie_list, key="movie_name", disabled=st.session_state["locked"])
 movie_rating = st.slider("Rate the movie:", 1, 10, 1, key="movie_rating", disabled=st.session_state["locked"])
 
-col1, col2, _ = st.columns([1.5, 1.5, 7])
-with col1:
+col_1, col_2, _ = st.columns([1.5, 1.5, 7])
+with col_1:
     st.button("Add Movie", use_container_width=True, on_click=add_movie, disabled=st.session_state["locked"])
-with col2:
+with col_2:
     st.button("Remove All Movies", use_container_width=True, on_click=remove_movie, disabled=st.session_state["locked"] or not st.session_state["movies"])
 
 if st.session_state["movies"]:
@@ -103,8 +103,10 @@ if st.session_state["movies"]:
     for m in st.session_state["movies"]:
         st.write(f"**{m['name']}** --- {m['rating']}/10")
 
-if len(st.session_state["movies"]) >= 2 and genres:
-    st.button(f"Recommend Me 5 Movies", on_click=run_recommend, disabled=st.session_state["locked"])
+col_1, _, _ = st.columns([1.5, 1.5, 7])
+with col_1:
+    if len(st.session_state["movies"]) >= 2 and genres:
+        st.button(f"Recommend Me 5 Movies", on_click=run_recommend, disabled=st.session_state["locked"])
 
 if st.session_state["results"]:
     st.subheader("Recommendations:")
@@ -143,10 +145,10 @@ if st.session_state["results"]:
     ]
 
     for movie in movies:
-        col1, col2 = st.columns([1, 4])
-        with col1:
+        col_1, col_2 = st.columns([1, 4])
+        with col_1:
             st.image(movie["poster"], use_container_width=True)
-        with col2:
+        with col_2:
             st.markdown(f"**{movie['title']}**")
             st.markdown(f"⭐ Rating: {movie['rating']}/10")
             st.markdown(f"{movie['overview']}")
