@@ -121,10 +121,7 @@ if st.session_state["results"]:
         with col2:
             st.markdown(f"**{movie['title']}**")
             st.markdown(f"⭐ Rating: {movie['rating']}/10")
-            st.markdown(f"🎬 TMDb ID: {movie['id']}")
         st.divider()
-
-    st.dataframe(df, use_container_width=True)
 
 if st.session_state["locked"]:
     st.button("Restart", on_click=restart)
