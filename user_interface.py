@@ -192,12 +192,8 @@ if st.session_state["results"]:
 if st.session_state["locked"]:
     st.button("Restart", on_click=restart)
 
-st.markdown(
-    """
-    <div style="display: flex; align-items: center;">
-        <span style="font-weight:600; font-size:16px; margin-right:10px;">Credits:</span>
-        <img src="movide_db_img.svg" width="120">
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+col_1, col_2, _ = st.columns([1, 3, 14])
+with col_1:
+    st.markdown("###### Credits:")
+with col_2:
+    st.image("movide_db_img.svg", width=120)
