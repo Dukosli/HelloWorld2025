@@ -191,8 +191,15 @@ if st.session_state["results"]:
         }
     ]
 
-    render_movie_grid(movies, 5)
-
+    for movie in movies:
+        col_1, col_2 = st.columns([1, 4])
+        with col_1:
+            st.image(movie["poster"], use_container_width=True)
+        with col_2:
+            st.markdown(f"**{movie['title']}**")
+            st.markdown(f"⭐ Rating: {movie['rating']}/10")
+            st.markdown(f"{movie['overview']}")
+        st.divider()
 
 if st.session_state["locked"]:
     st.button("Restart", on_click=restart)
