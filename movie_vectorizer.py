@@ -3,37 +3,42 @@ import tmdbsimple as tmdb
 tmdb.API_KEY = '3dd5f096f8f0bfcfd63b8a8f3d5cb7dd'
 
 df = pd.read_csv('movies.csv')
-df = df[['id', 'genre_ids']]
+df = df[['id', 'genre_ids', 'title']]
 
-print(df.head())
+# print(df.head())
 
 genres = tmdb.Genres()
 genre_names_id_df = pd.DataFrame(genres.movie_list()['genres'])
 # genre_list = genre_names_id_df['name'].tolist()
-print(genre_names_id_df)
+# print(genre_names_id_df)
 
 # The different genres are: 'Action' (28), 'Adventure' (12), 'Animation' (16), 'Comedy' (35), 'Crime' (80), 'Documentary' (99), 
 # 'Drama' (18), 'Family' (10751), 'Fantasy' (14), 'History' (36), 'Horror' (27), 'Music' (10402), 'Mystery' (9648), 
 # 'Romance' (10749), 'Science Fiction' (878), 'TV Movie' (10770), 'Thriller' (53), 'War' (10752), 'Western' (37)
 
-print(df.dtypes)
+# print(df.dtypes)
 
 def get_movie_id(movie_name):
-    pass
+    df = pd.read_csv('movies.csv')
+    single_movie = df[df['title'] == movie_name]
+    movie_id = single_movie['id'].iloc[0]
+    movie_id = int(movie_id)
+    return movie_id
 
 def movie_vectorizer(movie_id):
     # movie_id should be an integer
+    df = pd.read_csv('movies.csv')
+    df = df[['id', 'genre_ids', 'title']]
 
     single_movie = df[df['id'] == movie_id]
-
     movie_genres_str = single_movie['genre_ids'].iloc[0] # This gives movie_genres as a string, like "[878, 53]"
-    print(movie_genres_str)
+
     if "," in movie_genres_str:
         movie_genres_str = movie_genres_str[1:len(movie_genres_str)-2]
         movie_genres_str_list = movie_genres_str.split(",")
         movie_genres_int_list = [int(genre) for genre in movie_genres_str_list]
     else: 
-        movie_genres_str = movie_genres_str[1:len(movie_genres_str)-2]
+        movie_genres_str = movie_genres_str[1:len(movie_genres_str)-1]
         movie_genres_int_list = [int(movie_genres_str)] 
     
 
@@ -143,7 +148,85 @@ def movie_vectorizer(movie_id):
     
     return returned_vector
 
-print(movie_vectorizer(1038392))
+# print(movie_vectorizer(get_movie_id("The Conjuring: Last Rites")))
+
+# Movie dictionaries to test the get_ideal_movie_vector function
+movie_1 = {"name": "Demon Slayer: Kimetsu no Yaiba Infinity Castle", "rating": 8}
+movie_2 = {"name": "War of the Worlds", "rating": 10}
+movie_3 = {"name": "The Conjuring: Last Rites", "rating": 2}
+movie_4 = {"name": "Weapons", "rating": 5}
+movie_5 = {"name": "Nobody 2", "rating": 4}
+
+def get_ideal_movie_vector(movies_dict_list):
+    movie_names = []
+    movie_ratings = []
+    movie_vectors = []
+    movie_vectors_adj = []
+    
+
+    for movie_dict in movies_dict_list:
+        movie_names.append(movie_dict["name"])
+        movie_ratings.append(movie_dict["rating"])
+    
+    for movie_name in movie_names:
+        movie_vectors.append(movie_vectorizer(get_movie_id(movie_name)))
+
+    movie_ratings_adj = [(movie_rating/10 -0.5) for movie_rating in movie_ratings]
+    movie_rating_adj_sum = 0
+    for movie_rating_adj in movie_ratings_adj:
+        movie_rating_adj_sum += movie_rating_adj
+
+    # for movie_rating_adj in movie_ratings_adj:
+    #     for quality in movie_vector:
+    #         movie-vectors_adj.append(movie_rating * quality)
+
+    # for movie_rating_adj in movie_ratings_adj:
+    #     movie_vectors_adj.append([(movie_rating_adj * quality) for quality in movie_vectors])
+
+    # for movie_vector in movie_vectors:
+    #     movie_vectors_adj.append([])
+
+    for movie_rating_adj, movie_vector in zip(movie_ratings_adj, movie_vectors):
+        movie_vectors_adj.append([movie_rating_adj * quality for quality in movie_vector])
+
+    movie_vector_adj_sums = []
+    for i in range(10):
+        sum = 0
+        for movie_vector_adj in movie_vectors_adj:
+            sum += movie_vector_adj[i]
+        movie_vector_adj_sums.append(sum)
+    
+    ideal_movie_vector = []
+
+    for movie_vector_adj_sum in movie_vector_adj_sums:
+        ideal_movie_vector.append((movie_vector_adj_sum)/ movie_rating_adj_sum)
+    ideal_movie_vector.append(10)
+
+    return ideal_movie_vector
+
+def get_movieid_vector_dict(genres_asked): #Genres is a list of strings
+    df = pd.read_csv('movies.csv')
+    df = df[['id', 'genre_ids', 'title']]
+
+    keys = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 
+    'Music', 'Mystery', 'Romance', 'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western']
+    values = [28, 12, 16, 35, 80, 99, 18, 10751, 14, 36, 27, 10402, 9648, 10749, 878, 10770, 53, 10752, 37]
+    genre_ids_dict = dict(zip(keys, values))
+
+    genres_asked_id = []
+    for genre in genres_asked:
+        genres_asked_id.append(genre_ids_dict[genre])
+
+    for genre_id in genres_asked_id:
+        pass
+
+
+
+list_of_test_movies = [movie_1, movie_2, movie_3, movie_4, movie_5]
+
+print(get_ideal_movie_vector(list_of_test_movies))
+
+
 
 
 
