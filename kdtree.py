@@ -146,6 +146,7 @@ def kNearestNeighbors(node, query, k, heap):
         
 # Sort by depth
 def sortByDepth(node_in, depth):
+    # mergeSort(node_in, 0, len(node_in) - 1, depth)
     node_in.sort(key=lambda n: n.point[depth])
 
 
