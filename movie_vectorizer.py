@@ -1,5 +1,6 @@
 import pandas as pd
 import tmdbsimple as tmdb
+import ast
 tmdb.API_KEY = '3dd5f096f8f0bfcfd63b8a8f3d5cb7dd'
 
 df = pd.read_csv('movies.csv')
@@ -38,7 +39,8 @@ def movie_vectorizer(movie_id):
         movie_genres_str_list = movie_genres_str.split(",")
         movie_genres_int_list = [int(genre) for genre in movie_genres_str_list]
     else: 
-        movie_genres_str = movie_genres_str[1:len(movie_genres_str)-1]
+        movie_genres_str = movie_genres_str.replace("[", "")
+        movie_genres_str = movie_genres_str.replace("]", "")
         movie_genres_int_list = [int(movie_genres_str)] 
     
 
@@ -204,9 +206,9 @@ def get_ideal_movie_vector(movies_dict_list):
 
     return ideal_movie_vector
 
-def get_movieid_vector_dict(genres_asked): #Genres is a list of strings
+def get_movieid_vector_dict(genres_asked): #genres_asked is a list of strings
     df = pd.read_csv('movies.csv')
-    df = df[['id', 'genre_ids', 'title']]
+    df = df[['id', 'genre_ids', 'title', 'genre_ids_str', 'movie_vector']]
 
     keys = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 
     'Music', 'Mystery', 'Romance', 'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western']
@@ -215,16 +217,33 @@ def get_movieid_vector_dict(genres_asked): #Genres is a list of strings
 
     genres_asked_id = []
     for genre in genres_asked:
-        genres_asked_id.append(genre_ids_dict[genre])
+        genres_asked_id.append(str(genre_ids_dict[genre]))
 
     for genre_id in genres_asked_id:
-        pass
+        filtered_df = df[df["genre_ids_str"].str.contains(str(genre_id), na=False)]
+    
+    id_keys = filtered_df['id'].tolist()
+    # movie_vector_values = ast.literal_eval(filtered_df['movie_vector'])
+    movie_vector_strs = filtered_df['movie_vector'].tolist()
+    movie_vector_values = []
+    for movie_vector_str in movie_vector_strs:
+        movie_vector_values.append(ast.literal_eval(movie_vector_str))
+
+    movieid_vector_dict = dict(zip(id_keys, movie_vector_values))
+    return movieid_vector_dict
 
 
 
 list_of_test_movies = [movie_1, movie_2, movie_3, movie_4, movie_5]
 
-print(get_ideal_movie_vector(list_of_test_movies))
+# print(get_ideal_movie_vector(list_of_test_movies))
+
+list_of_genres = ['Action']
+print(get_movieid_vector_dict(list_of_genres))
+
+# df1 = pd.read_csv('movies.csv')
+# df1["movie_vector"] = df["id"].apply(lambda x: movie_vectorizer(x))
+# df1.to_csv('movies.csv', index=False)
 
 
 

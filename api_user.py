@@ -21,6 +21,7 @@ while iterations < 3:
 
 movies_df = movies_df.drop_duplicates(subset=['id'], keep='first')
 movies_df["genre_ids_str"] = movies_df["genre_ids"].astype(str)
+movies_df = movies_df[movies_df["genre_ids_str"] != "[]"]
 movies_df.to_csv('movies.csv', index=False)
 print(movies_df['popularity'].head())
 
