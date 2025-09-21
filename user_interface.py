@@ -57,7 +57,11 @@ def add_movie():
         return
     
     match = df[df["title"].str.lower() == name_norm]
-    poster = poster_url_from_path(match.iloc[0]["poster_path"]) if not match.empty else None
+    if not match.empty:
+        poster = poster_url_from_path(match.iloc[0]["poster_path"])
+    else:
+        poster = None
+
 
     st.session_state["movies"].append({
         "name": name,
