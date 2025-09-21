@@ -257,6 +257,7 @@ list_of_test_movies = [movie_1, movie_2, movie_3, movie_4, movie_5]
 # print(get_movieid_vector_dict(list_of_genres))
 
 df1 = pd.read_csv('movies.csv')
+df1 = df1[df1['adult'] == False]
 df1["movie_vector"] = df["id"].apply(lambda x: movie_vectorizer(x))
 df1.to_csv('movies.csv', index=False)
 
