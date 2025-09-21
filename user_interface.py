@@ -108,7 +108,7 @@ def restart():
 
 
 
-st.title("Movie Recommender")
+st.markdown("<h1 style='text-align: center; color: #0A84FF;'>🎬 Movie Recommender</h1>", unsafe_allow_html=True)
 
 st.write(
     "### Tell us what kinds of movies you’re in the mood for:\n"
