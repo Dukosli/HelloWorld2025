@@ -26,13 +26,6 @@ st.markdown("""
   color: #888888 !important;
 }
 
-.movie-overview{
-  white-space: normal !important;
-  overflow-wrap: anywhere;     /* modern */
-  word-break: break-word;      /* fallback */
-  line-height: 1.4;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -157,7 +150,7 @@ if st.session_state["results"]:
         with col2:
             st.markdown(f"**{movie['title']}**")
             st.markdown(f"⭐ Rating: {movie['rating']}/10")
-            st.markdown(f'<div class="movie-overview">{movie["overview"]}</div>', unsafe_allow_html=True)
+            st.write(f"{movie["overview"]}")
         st.divider()
 
 if st.session_state["locked"]:
