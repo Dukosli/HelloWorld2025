@@ -72,11 +72,11 @@ def render_movie_grid(movies):
         return
     
     cols = None
-    
+
     for i, m in enumerate(movies):
-        if i % 4 == 0:
-            cols = st.columns(4, gap="medium")
-        with cols[i % 4]:
+        if i % 8 == 0:
+            cols = st.columns(8, gap="medium")
+        with cols[i % 8]:
             if m.get("poster"):
                 st.image(m["poster"], use_container_width=True)
             else:
