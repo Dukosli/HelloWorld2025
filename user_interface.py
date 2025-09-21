@@ -107,12 +107,37 @@ if st.session_state["results"]:
     st.subheader("Recommendations:")
 
     movies = [
-        {"id": 1311031, "title": "Demon Slayer: Infinity Castle", "rating": 7.7, "poster": "https://image.tmdb.org/t/p/w200/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"},
-        {"id": 755898, "title": "War of the Worlds", "rating": 4.3, "poster": "https://image.tmdb.org/t/p/w200/yvirUYrva23IudARHn3mMGVxWqM.jpg"},
-        {"id": 1038392, "title": "The Conjuring: Last Rites", "rating": 6.6, "poster": "https://image.tmdb.org/t/p/w200/29ES27icY5CzTcMhlz1H4SdQRod.jpg"},
-        {"id": 123456, "title": "Inception", "rating": 8.8, "poster": "https://image.tmdb.org/t/p/w200/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg"},
-        {"id": 654321, "title": "Interstellar", "rating": 8.6, "poster": "https://image.tmdb.org/t/p/w200/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg"},
-    ] 
+        {
+            "title": "Demon Slayer: Infinity Castle",
+            "rating": 7.7,
+            "poster": "https://image.tmdb.org/t/p/w200/sUsVimPdA1l162FvdBIlmKBlWHx.jpg",
+            "overview": "The Demon Slayer Corps are drawn into the Infinity Castle, where Tanjiro, Nezuko, and the Hashira face terrifying Upper Rank demons..."
+        },
+        {
+            "title": "War of the Worlds",
+            "rating": 4.3,
+            "poster": "https://image.tmdb.org/t/p/w200/yvirUYrva23IudARHn3mMGVxWqM.jpg",
+            "overview": "Will Radford is a top analyst for Homeland Security who tracks threats through surveillance, until one day an attack by an unknown entity changes everything..."
+        },
+        {
+            "title": "The Conjuring: Last Rites",
+            "rating": 6.6,
+            "poster": "https://image.tmdb.org/t/p/w200/29ES27icY5CzTcMhlz1H4SdQRod.jpg",
+            "overview": "Paranormal investigators Ed and Lorraine Warren take on one last terrifying case involving mysterious entities..."
+        },
+        {
+            "title": "Inception",
+            "rating": 8.8,
+            "poster": "https://image.tmdb.org/t/p/w200/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg",
+            "overview": "A skilled thief enters people's dreams to steal secrets, but gets one final mission: to plant an idea instead."
+        },
+        {
+            "title": "Interstellar",
+            "rating": 8.6,
+            "poster": "https://image.tmdb.org/t/p/w200/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",
+            "overview": "A team of explorers travel through a wormhole in space to ensure humanity's survival."
+        }
+    ]
 
     for movie in movies:
         col1, col2 = st.columns([1, 3])
