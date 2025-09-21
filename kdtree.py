@@ -228,4 +228,4 @@ def rknn_id(dict_in, query, k):
 
 # # Expect 1, 5, 7, 8, 4
 # for q in queries:
-#     print(f"Query {q} -> Nearest ID: {rkNN_id(data_dict, q, 2)}")
+#     print(f"Query {q} -> Nearest ID: {rknn_id(data_dict, q, 2)}")
