@@ -14,8 +14,8 @@ st.markdown("""
 }
 /* hover */
 .stButton > button:hover {
-  background-color: #bf0811;
-  border-color: #bf0811;
+  background-color: #006DDB;
+  border-color: #006DDB;
 }
 /* disabled state */
 .stButton > button:disabled {
