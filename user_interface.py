@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+from movie_vectorizer import get_ideal_movie_vector, get_movieid_vector_dict
+from kdtree import rknn_id
 
 
 
@@ -33,7 +35,7 @@ df = pd.read_csv("movies.csv")
 movie_list = df["title"].tolist()
 
 st.session_state.setdefault("movies", [])
-st.session_state.setdefault("genre", [])
+st.session_state.setdefault("genres", [])
 st.session_state.setdefault("movie_name", "")
 st.session_state.setdefault("movie_rating", 1)
 st.session_state.setdefault("locked", False)
@@ -42,8 +44,17 @@ st.session_state.setdefault("results", None)
 
 
 BASE_IMG = "https://image.tmdb.org/t/p/w200"
+
 def poster_url_from_path(p):
     return f"{BASE_IMG}{p}" if isinstance(p, str) and p else None
+
+def build_movie_dict(row):
+    return {
+        "title": row["title"],
+        "rating": row["vote_average"],
+        "overview": row["overview"],
+        "poster": f"{BASE_IMG}{row['poster_path']}" if isinstance(row["poster_path"], str) else None,
+    }
 
 def add_movie():
     name = st.session_state["movie_name"]
@@ -101,7 +112,7 @@ def run_recommend():
 def restart():
     st.session_state["locked"] = False
     st.session_state["movies"].clear()
-    st.session_state["genre"] = []
+    st.session_state["genres"] = []
     st.session_state["movie_name"] = ""
     st.session_state["movie_rating"] = 1
     st.session_state["results"] = None
@@ -123,7 +134,7 @@ with st.container(border=True):
         'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 
         'History', 'Horror', 'Music', 'Mystery', 'Romance', 
         'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western'
-        ], key="genre", disabled=st.session_state["locked"])
+        ], key="genres", disabled=st.session_state["locked"])
 
     movie_name = st.selectbox("Enter a movie name:", movie_list, key="movie_name", disabled=st.session_state["locked"])
 
@@ -146,38 +157,13 @@ if st.session_state["results"]:
     with st.container(border=True):
         st.subheader("Recommendations:")
 
-        movies = [
-            {
-                "title": "Demon Slayer: Infinity Castle",
-                "rating": 7.7,
-                "poster": "https://image.tmdb.org/t/p/w200/sUsVimPdA1l162FvdBIlmKBlWHx.jpg",
-                "overview": "The Demon Slayer Corps are drawn into the Infinity Castle, where Tanjiro, Nezuko, and the Hashira face terrifying Upper Rank demons in a desperate fight as the final battle against Muzan Kibutsuji begins."
-            },
-            {
-                "title": "War of the Worlds",
-                "rating": 4.3,
-                "poster": "https://image.tmdb.org/t/p/w200/yvirUYrva23IudARHn3mMGVxWqM.jpg",
-                "overview": "Will Radford is a top analyst for Homeland Security who tracks threats through surveillance, until one day an attack by an unknown entity changes everything..."
-            },
-            {
-                "title": "The Conjuring: Last Rites",
-                "rating": 6.6,
-                "poster": "https://image.tmdb.org/t/p/w200/29ES27icY5CzTcMhlz1H4SdQRod.jpg",
-                "overview": "Paranormal investigators Ed and Lorraine Warren take on one last terrifying case involving mysterious entities..."
-            },
-            {
-                "title": "Inception",
-                "rating": 8.8,
-                "poster": "https://image.tmdb.org/t/p/w200/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg",
-                "overview": "A skilled thief enters people's dreams to steal secrets, but gets one final mission: to plant an idea instead."
-            },
-            {
-                "title": "Interstellar",
-                "rating": 8.6,
-                "poster": "https://image.tmdb.org/t/p/w200/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",
-                "overview": "A team of explorers travel through a wormhole in space to ensure humanity's survival."
-            }
-        ]
+        ideal_vector = get_ideal_movie_vector(st.session_state["movies"])
+        movie_id_vector = get_movieid_vector_dict(st.session_state["genres"])
+        recommended_ids = rknn_id(dict_in=movie_id_vector, query=ideal_vector, k=5)
+        recommended_rows = df[df["id"].isin(recommended_ids)]
+        recommended_rows = df.set_index("id").loc[recommended_ids]
+        movies = [build_movie_dict(row) for _, row in recommended_rows.iterrows()]
+
 
         for movie in movies:
             col_1, col_2 = st.columns([1, 4])
