@@ -153,34 +153,41 @@ if st.session_state["movies"]:
         st.subheader("Movies:")
         render_movie_grid(st.session_state["movies"], 8)
 
+
 if st.session_state["results"]:
     with st.container(border=True):
         st.subheader("Recommendations:")
 
         ideal_vector = get_ideal_movie_vector(st.session_state["movies"])
         movie_id_vector = get_movieid_vector_dict(st.session_state["genres"])
-        recommended_ids = rknn_id(dict_in=movie_id_vector, query=ideal_vector, k=10)
-        recommended_rows = df[df["id"].isin(recommended_ids)]
-        recommended_rows = df.set_index("id").loc[recommended_ids]
 
-        user_titles = []
-        for m in st.session_state["movies"]:
-            user_titles.append((m.get("title") or m.get("name") or "").strip().lower())
-        
-        movies = [build_movie_dict(row) for _, row in recommended_rows.iterrows()]
-        movies = [m for m in movies if m["title"].strip().lower() not in user_titles]
-        movies = movies[:5]
+        if movie_id_vector is None:
+            st.toast("Your query parameters are too specific to recommend 5 movies!")
+        else: 
+            recommended_ids = rknn_id(dict_in=movie_id_vector, query=ideal_vector, k=10)
+            recommended_rows = df[df["id"].isin(recommended_ids)]
+            recommended_rows = df.set_index("id").loc[recommended_ids]
 
+            user_titles = []
+            for m in st.session_state["movies"]:
+                user_titles.append((m.get("title") or m.get("name") or "").strip().lower())
+            
+            movies = [build_movie_dict(row) for _, row in recommended_rows.iterrows()]
+            movies = [m for m in movies if m["title"].strip().lower() not in user_titles]
+            movies = movies[:5]
 
-        for movie in movies:
-            col_1, col_2 = st.columns([1, 4])
-            with col_1:
-                st.image(movie["poster"], use_container_width=True)
-            with col_2:
-                st.markdown(f"**{movie['title']}**")
-                st.markdown(f"⭐ Rating: {movie['rating']}/10")
-                st.markdown(f"{movie['overview']}")
-            st.divider()
+            if len(movies) < 5:
+                st.toast("Your query parameters are too specific to recommend 5 movies!")
+            else:
+                for movie in movies:
+                    col_1, col_2 = st.columns([1, 4])
+                    with col_1:
+                        st.image(movie["poster"], use_container_width=True)
+                    with col_2:
+                        st.markdown(f"**{movie['title']}**")
+                        st.markdown(f"⭐ Rating: {movie['rating']}/10")
+                        st.markdown(f"{movie['overview']}")
+                    st.divider()
 
 if st.session_state["locked"]:
     st.button("Restart", on_click=restart)
