@@ -58,9 +58,7 @@ def buildTree(points, depth):
 
 # Expects node, vector
 def getDistanceNQ(node, query):
-    diff = np.array(node.point) - np.array(query)
-    sq_diff = [x ** 2 for x in diff]
-    dist = np.sqrt(np.sum(sq_diff))
+    dist = np.linalg.norm(np.array(node.point) - np.array(query))
     return dist
 
 # Root is the start node, returned from buildTree
@@ -191,41 +189,41 @@ def rknn_id(dict_in, query, k):
 # for i in nodes:
 #     print(i.id, i.point)
 
-# # Chat-generated test cases
-# data_dict = {
-#   1: [8.44, 6.25, 2.10],
-#   2: [1.32, 9.87, 5.76],
-#   3: [4.91, 3.45, 7.80],
-#   4: [9.65, 0.55, 1.10],
-#   5: [2.34, 6.78, 9.01],
-#   6: [7.12, 8.90, 4.56],
-#   7: [5.67, 2.22, 3.33],
-#   8: [3.11, 7.77, 0.99]
-# }
-# queries = [
-#     [8.0,6.0,2.0],
-#     [2.0,7.0,8.0],
-#     [5.5,2.0,3.0],
-#     [3.0,8.0,1.0],
-#     [9.0,1.0,1.0]
-# ]
+# Chat-generated test cases
+data_dict = {
+  1: [8.44, 6.25, 2.10],
+  2: [1.32, 9.87, 5.76],
+  3: [4.91, 3.45, 7.80],
+  4: [9.65, 0.55, 1.10],
+  5: [2.34, 6.78, 9.01],
+  6: [7.12, 8.90, 4.56],
+  7: [5.67, 2.22, 3.33],
+  8: [3.11, 7.77, 0.99]
+}
+queries = [
+    [8.0,6.0,2.0],
+    [2.0,7.0,8.0],
+    [5.5,2.0,3.0],
+    [3.0,8.0,1.0],
+    [9.0,1.0,1.0]
+]
 
-# nams = []
-# addNodes(data_dict, nams)
-# root = buildTree(nams, 0)
+nams = []
+addNodes(data_dict, nams)
+root = buildTree(nams, 0)
 
-# # Chat generated print-assist
-# def printTree(node, depth=0):
-#     if node is None:
-#         return
-#     print("  " * depth + f"ID={node.id}, Point={node.point}, Depth={node.axis}")
-#     printTree(node.left, depth + 1)
-#     printTree(node.right, depth + 1)
+# Chat generated print-assist
+def printTree(node, depth=0):
+    if node is None:
+        return
+    print("  " * depth + f"ID={node.id}, Point={node.point}, Depth={node.axis}")
+    printTree(node.left, depth + 1)
+    printTree(node.right, depth + 1)
 
-# # Print the constructed tree
-# printTree(root)
+# Print the constructed tree
+printTree(root)
 
 
-# # Expect 1, 5, 7, 8, 4
-# for q in queries:
-#     print(f"Query {q} -> Nearest ID: {rknn_id(data_dict, q, 2)}")
+# Expect 1, 5, 7, 8, 4
+for q in queries:
+    print(f"Query {q} -> Nearest ID: {rknn_id(data_dict, q, 2)}")
