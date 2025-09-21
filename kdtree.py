@@ -97,69 +97,70 @@ def kNearestNeighbors(node, query, k, heap):
 
 # ------------------------------- MERGESORT ------------------------------- #
 
-# Below contains mergesort, pulled from G4G, with 
-# slight modification to the deployment to re-configure 
-# the array to be suitable for batch structurization
-# in the k-d tree rather than by-point insert.
+# # Below contains mergesort, credits to G4G, with 
+# # slight modification to the deployment to re-configure 
+# # the array to be suitable for batch structurization
+# # in the k-d tree rather than by-point insert.
 
 
-# From G4G, change to sort by k-d depth at 
-# level to find median by dimension at every level
-def merge(arr, left, mid, right, axis):
-    n1 = mid - left + 1
-    n2 = right - mid
+# # From G4G, change to sort by k-d depth at 
+# # level to find median by dimension at every level
+# def merge(arr, left, mid, right, axis):
+#     n1 = mid - left + 1
+#     n2 = right - mid
 
-    # Create temp arrays
-    L = [0] * n1
-    R = [0] * n2
+#     # Create temp arrays
+#     L = [0] * n1
+#     R = [0] * n2
 
-    # Copy data to temp arrays L[] and R[]
-    for i in range(n1):
-        L[i] = arr[left + i]
-    for j in range(n2):
-        R[j] = arr[mid + 1 + j]
+#     # Copy data to temp arrays L[] and R[]
+#     for i in range(n1):
+#         L[i] = arr[left + i]
+#     for j in range(n2):
+#         R[j] = arr[mid + 1 + j]
         
-    i = 0  
-    j = 0  
-    k = left  
+#     i = 0  
+#     j = 0  
+#     k = left  
 
-    # Merge the temp arrays back
-    # into arr[left..right]
-    while i < n1 and j < n2:
-        if L[i].point[axis] <= R[j].point[axis]:
-            arr[k] = L[i]
-            i += 1
-        else:
-            arr[k] = R[j]
-            j += 1
-        k += 1
+#     # Merge the temp arrays back
+#     # into arr[left..right]
+#     while i < n1 and j < n2:
+#         if L[i].point[axis] <= R[j].point[axis]:
+#             arr[k] = L[i]
+#             i += 1
+#         else:
+#             arr[k] = R[j]
+#             j += 1
+#         k += 1
 
-    # Dump remainder after comparison burns
-    while i < n1:
-        arr[k] = L[i]
-        i += 1
-        k += 1
+#     # Dump remainder after comparison burns
+#     while i < n1:
+#         arr[k] = L[i]
+#         i += 1
+#         k += 1
 
-    while j < n2:
-        arr[k] = R[j]
-        j += 1
-        k += 1
+#     while j < n2:
+#         arr[k] = R[j]
+#         j += 1
+#         k += 1
 
-# Head
-def mergeSort(arr, left, right, axis):
-    if left < right:
-        mid = (left + right) // 2
+# # Head
+# def mergeSort(arr, left, right, axis):
+#     if left < right:
+#         mid = (left + right) // 2
 
-        mergeSort(arr, left, mid, axis)
-        mergeSort(arr, mid + 1, right, axis)
-        merge(arr, left, mid, right, axis)
+#         mergeSort(arr, left, mid, axis)
+#         mergeSort(arr, mid + 1, right, axis)
+#         merge(arr, left, mid, right, axis)
         
-# Sort by depth, temp changes as passed by
+# Sort by depth
 def sortByDepth(node_in, depth):
-    mergeSort(node_in, 0, len(node_in) - 1, depth)
+    node_in.sort(key=lambda n: n.point[depth])
 
 
 # ------------------------------- PRIMARY FUNCTIONALITY ------------------------------- #
+
 
 def rknn_id(dict_in, query, k):
     # start_time = time.time();
