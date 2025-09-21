@@ -137,13 +137,13 @@ with st.container(border=True):
     with col_4:
         st.button(f"Recommend 5", use_container_width=True, on_click=run_recommend, disabled=st.session_state["locked"] or len(st.session_state["movies"]) < 2 or not genres)
 
-with st.container(border=True):
-    if st.session_state["movies"]:
-            st.subheader("Movies:")
-            render_movie_grid(st.session_state["movies"], 8)
+if st.session_state["movies"]:
+    with st.container(border=True):
+        st.subheader("Movies:")
+        render_movie_grid(st.session_state["movies"], 8)
 
-with st.container(border=True):
-    if st.session_state["results"]:
+if st.session_state["results"]:
+    with st.container(border=True):
         st.subheader("Recommendations:")
 
         movies = [
