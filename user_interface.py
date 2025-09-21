@@ -119,6 +119,7 @@ def restart():
 
 
 
+st.image("logo for movie recom.png", width=200)
 st.markdown("<h1 style='text-align: center; color: #0A84FF;'>Movie Recommender</h1>", unsafe_allow_html=True)
 
 st.write(
