@@ -125,12 +125,13 @@ genres = st.multiselect("Enter a genre:", [
     ], key="genre", disabled=st.session_state["locked"])
 
 movie_name = st.selectbox("Enter a movie name:", movie_list, key="movie_name", disabled=st.session_state["locked"])
-movie_rating = st.slider("Rate the movie:", 1, 10, 1, key="movie_rating", disabled=st.session_state["locked"])
 
-col_1, col_2, _ = st.columns([1.5, 1.5, 7])
+col_1, col_2, col_3 = st.columns([7,1.5, 1.5])
 with col_1:
-    st.button("Add Movie", use_container_width=True, on_click=add_movie, disabled=st.session_state["locked"])
+    movie_rating = st.slider("Rate the movie:", 1, 10, 1, key="movie_rating", disabled=st.session_state["locked"])
 with col_2:
+    st.button("Add Movie", use_container_width=True, on_click=add_movie, disabled=st.session_state["locked"])
+with col_3:
     st.button("Remove All Movies", use_container_width=True, on_click=remove_movie, disabled=st.session_state["locked"] or not st.session_state["movies"])
 
 if st.session_state["movies"]:
