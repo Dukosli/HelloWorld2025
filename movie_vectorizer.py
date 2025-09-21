@@ -29,19 +29,19 @@ def get_movie_id(movie_name):
 def movie_vectorizer(movie_id):
     # movie_id should be an integer
     df = pd.read_csv('movies.csv')
-    df = df[['id', 'genre_ids', 'title']]
+    df = df[['id', 'genre_ids', 'title', 'vote_average', 'genre_ids_str']]
 
     single_movie = df[df['id'] == movie_id]
     movie_genres_str = single_movie['genre_ids'].iloc[0] # This gives movie_genres as a string, like "[878, 53]"
 
-    if "," in movie_genres_str:
-        movie_genres_str = movie_genres_str[1:len(movie_genres_str)-2]
-        movie_genres_str_list = movie_genres_str.split(",")
-        movie_genres_int_list = [int(genre) for genre in movie_genres_str_list]
-    else: 
-        movie_genres_str = movie_genres_str.replace("[", "")
-        movie_genres_str = movie_genres_str.replace("]", "")
-        movie_genres_int_list = [int(movie_genres_str)] 
+    # if "," in movie_genres_str:
+    #     movie_genres_str = movie_genres_str[1:len(movie_genres_str)-2]
+    #     movie_genres_str_list = movie_genres_str.split(",")
+    #     movie_genres_int_list = [int(genre) for genre in movie_genres_str_list]
+    # else: 
+    #     movie_genres_str = movie_genres_str.replace("[", "")
+    #     movie_genres_str = movie_genres_str.replace("]", "")
+    #     movie_genres_int_list = [int(movie_genres_str)] 
     
 
     
@@ -138,15 +138,23 @@ def movie_vectorizer(movie_id):
             "Artistry": 0, "Relatability": 0, "Epicness": +2}  # Western
     }
 
-    for genre_code in movie_genres_int_list:
-        if genre_code in genre_effects:
-            for quality, value in genre_effects[genre_code].items():
-                qualities[quality] += value
+    # for genre_code in movie_genres_int_list:
+    #     if genre_code in genre_effects:
+    #         for quality, value in genre_effects[genre_code].items():
+    #             qualities[quality] += value
+
+    genre_codes_str = ["28", "12", "16", "35", "80", "99", "18", "10751", "14", "36", "27", "10402", "9648", "10749", 
+    "878", "10770", "53", "10752", "37"]
     
+    for genre_code_str in genre_codes_str:
+        if genre_code_str in str(single_movie['genre_ids_str'].iloc[0]):
+            for quality, value in genre_effects[int(genre_code_str)].items():
+                qualities[quality] += value
 
     returned_vector = [qualities["Excitement"], qualities["Pacing"], qualities["Emotional Depth"], qualities["Humor"],
     qualities["Mental Stimulation"], qualities["Darkness"], qualities["World-Building"], qualities["Artistry"], qualities["Relatability"],
-    qualities["Epicness"]]
+    qualities["Epicness"], ]
+    returned_vector.append(float(single_movie['vote_average'].iloc[0]))
     
     return returned_vector
 
@@ -238,12 +246,12 @@ list_of_test_movies = [movie_1, movie_2, movie_3, movie_4, movie_5]
 
 # print(get_ideal_movie_vector(list_of_test_movies))
 
-list_of_genres = ['Action']
-print(get_movieid_vector_dict(list_of_genres))
+# list_of_genres = ['Action']
+# print(get_movieid_vector_dict(list_of_genres))
 
-# df1 = pd.read_csv('movies.csv')
-# df1["movie_vector"] = df["id"].apply(lambda x: movie_vectorizer(x))
-# df1.to_csv('movies.csv', index=False)
+df1 = pd.read_csv('movies.csv')
+df1["movie_vector"] = df["id"].apply(lambda x: movie_vectorizer(x))
+df1.to_csv('movies.csv', index=False)
 
 
 
