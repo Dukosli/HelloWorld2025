@@ -112,9 +112,9 @@ st.title("Movie Recommender")
 
 st.write(
     "### Tell us what kinds of movies you’re in the mood for:\n"
-    "###### 1. Pick a few genres. With these, we'll fill recommendations that include all these tags... and more!\n"
-    "###### 2. Next, add at least TWO movies you’ve seen with these genres and rate them.\n"
-    "###### 3. Once you're done, hit \"Recommend 5\" and we'll recommend five movies we think you'll love.\n"
+    "###### &emsp; 1. Pick a few genres. With these, we'll fill recommendations that include all these tags... and more!\n"
+    "###### &emsp; 2. Next, add at least TWO movies you’ve seen with these genres and rate them.\n"
+    "###### &emsp; 3. Once you're done, hit \"Recommend 5\" and we'll recommend five movies we think you'll love.\n"
 )
 
 with st.container(border=True):
