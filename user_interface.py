@@ -3,6 +3,29 @@ import pandas as pd
 
 
 
+st.markdown("""
+<style>
+/* default state */
+.stButton > button {
+  background-color: #E50914;   /* your color */
+  color: #ffffff;
+  border: 1px solid #E50914;
+  border-radius: 10px;
+}
+/* hover */
+.stButton > button:hover {
+  background-color: #bf0811;
+  border-color: #bf0811;
+}
+/* disabled state */
+.stButton > button:disabled {
+  background-color: #333333 !important;
+  border-color: #333333 !important;
+  color: #888888 !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 df = pd.read_csv("movies.csv")
 movie_list = df["title"].tolist()
 
