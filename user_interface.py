@@ -30,7 +30,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 df = pd.read_csv("movies.csv")
-movie_list = df["title"].tolist()
+movie_list = df["name"].tolist()
 
 st.session_state.setdefault("movies", [])
 st.session_state.setdefault("genre", [])
@@ -56,7 +56,7 @@ def add_movie():
         st.toast("Already added that movie")
         return
     
-    match = df[df["title"].str.lower() == name_norm]
+    match = df[df["name"].str.lower() == name_norm]
     if not match.empty:
         poster = poster_url_from_path(match.iloc[0]["poster_path"])
     else:
@@ -109,7 +109,7 @@ def remove_movie():
 
 def run_recommend():
     st.session_state["locked"] = True
-    st.session_state["results"] = {"Placeholder A": 1, "Placeholder B": 2, "Placeholder C": 3, "Placeholder D": 4, "Placeholder E": 5}
+    st.session_state["results"] = {}
 
 def restart():
     st.session_state["locked"] = False
@@ -160,31 +160,31 @@ if st.session_state["results"]:
 
     movies = [
         {
-            "title": "Demon Slayer: Infinity Castle",
+            "name": "Demon Slayer: Infinity Castle",
             "rating": 7.7,
             "poster": "https://image.tmdb.org/t/p/w200/sUsVimPdA1l162FvdBIlmKBlWHx.jpg",
             "overview": "The Demon Slayer Corps are drawn into the Infinity Castle, where Tanjiro, Nezuko, and the Hashira face terrifying Upper Rank demons in a desperate fight as the final battle against Muzan Kibutsuji begins."
         },
         {
-            "title": "War of the Worlds",
+            "name": "War of the Worlds",
             "rating": 4.3,
             "poster": "https://image.tmdb.org/t/p/w200/yvirUYrva23IudARHn3mMGVxWqM.jpg",
             "overview": "Will Radford is a top analyst for Homeland Security who tracks threats through surveillance, until one day an attack by an unknown entity changes everything..."
         },
         {
-            "title": "The Conjuring: Last Rites",
+            "name": "The Conjuring: Last Rites",
             "rating": 6.6,
             "poster": "https://image.tmdb.org/t/p/w200/29ES27icY5CzTcMhlz1H4SdQRod.jpg",
             "overview": "Paranormal investigators Ed and Lorraine Warren take on one last terrifying case involving mysterious entities..."
         },
         {
-            "title": "Inception",
+            "name": "Inception",
             "rating": 8.8,
             "poster": "https://image.tmdb.org/t/p/w200/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg",
             "overview": "A skilled thief enters people's dreams to steal secrets, but gets one final mission: to plant an idea instead."
         },
         {
-            "title": "Interstellar",
+            "name": "Interstellar",
             "rating": 8.6,
             "poster": "https://image.tmdb.org/t/p/w200/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",
             "overview": "A team of explorers travel through a wormhole in space to ensure humanity's survival."
