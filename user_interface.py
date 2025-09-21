@@ -159,10 +159,17 @@ if st.session_state["results"]:
 
         ideal_vector = get_ideal_movie_vector(st.session_state["movies"])
         movie_id_vector = get_movieid_vector_dict(st.session_state["genres"])
-        recommended_ids = rknn_id(dict_in=movie_id_vector, query=ideal_vector, k=5)
+        recommended_ids = rknn_id(dict_in=movie_id_vector, query=ideal_vector, k=10)
         recommended_rows = df[df["id"].isin(recommended_ids)]
         recommended_rows = df.set_index("id").loc[recommended_ids]
+
+        user_titles = []
+        for m in st.session_state["movies"]:
+            user_titles.append((m.get("title") or m.get("name") or "").strip().lower())
+        
         movies = [build_movie_dict(row) for _, row in recommended_rows.iterrows()]
+        movies = [m for m in movies if m["title"].strip().lower() not in user_titles]
+        movies = movies[:5]
 
 
         for movie in movies:
