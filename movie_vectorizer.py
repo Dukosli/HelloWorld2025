@@ -241,6 +241,9 @@ def get_movieid_vector_dict(genres_asked): #genres_asked is a list of strings
         movie_vector_values.append(ast.literal_eval(movie_vector_str))
 
     movieid_vector_dict = dict(zip(id_keys, movie_vector_values))
+    if len(movieid_vector_dict) <= 5:
+        return none 
+    
     return movieid_vector_dict
 
 
