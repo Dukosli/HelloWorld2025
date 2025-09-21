@@ -142,15 +142,7 @@ if st.session_state["results"]:
     ]
 
     for movie in movies:
-        st.markdown(
-            f"""
-            <div style="white-space: normal; word-wrap: break-word;">
-                {movie['overview']}
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-        
+
         col1, col2 = st.columns([1, 3])
         with col1:
             st.image(movie["poster"], width=240)
