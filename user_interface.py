@@ -67,14 +67,13 @@ def add_movie():
 
     st.session_state["movie_name"] = ""
 
-def render_movie_grid():
+def render_movie_grid(movies):
     if not movies:
         return
     
     cols = None
-
+    
     for i, m in enumerate(movies):
-
         if i % 4 == 0:
             cols = st.columns(4, gap="medium")
         with cols[i % 4]:
@@ -84,6 +83,7 @@ def render_movie_grid():
                 st.write("No image")
             st.markdown(f"**{m['name']}**")
             st.markdown(f"⭐ {m['rating']}/10")
+
 
 def remove_movie():
     st.session_state["movies"].clear()
