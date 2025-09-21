@@ -135,7 +135,7 @@ with st.container(border=True):
     with col_3:
         st.button("Remove All Movies", use_container_width=True, on_click=remove_movie, disabled=st.session_state["locked"] or not st.session_state["movies"])
     with col_4:
-        st.button(f"Recommend 5", on_click=run_recommend, disabled=st.session_state["locked"] or len(st.session_state["movies"]) < 2 or not genres)
+        st.button(f"Recommend 5", use_container_width=True, on_click=run_recommend, disabled=st.session_state["locked"] or len(st.session_state["movies"]) < 2 or not genres)
 
 if st.session_state["movies"]:
         st.subheader("Movies:")
