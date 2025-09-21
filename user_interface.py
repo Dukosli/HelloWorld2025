@@ -5,19 +5,19 @@ import pandas as pd
 
 st.markdown("""
 <style>
-/* default state */
+
 .stButton > button {
   background-color: #0A84FF;
   color: #ffffff;
   border: 1px solid #0A84FF;
   border-radius: 10px;
 }
-/* hover */
+
 .stButton > button:hover {
   background-color: #006DDB;
   border-color: #006DDB;
 }
-/* disabled state */
+
 .stButton > button:disabled {
   background-color: #333333 !important;
   border-color: #333333 !important;
