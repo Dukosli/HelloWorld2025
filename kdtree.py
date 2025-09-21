@@ -65,7 +65,7 @@ def getDistanceNQ(node, query):
 # Root is the start node, returned from buildTree
 # Query is the input vector, k is the number of returns
 # Invert the heap so furthest distance is also smallest number
-def kNearestNeighbors(node, query, k, heap):
+def kNearestNeighbors(node, query, k, heap, increment=0):
     if not node:
         return
     
@@ -73,10 +73,12 @@ def kNearestNeighbors(node, query, k, heap):
     dist = getDistanceNQ(node, query)
 
     if len(heap) < k:
-        hq.heappush(heap, (-dist, node))
+        hq.heappush(heap, (-dist, increment, node))
+        increment += 1
     else:
         if dist < -heap[0][0]:  # compare to farthest
-            hq.heapreplace(heap, (-dist, node))
+            hq.heapreplace(heap, (-dist, increment, node))
+            increment += 1
             
     # Compare along the splitting axis since during the generation
     # phase, we checked by axis. This way, we know which branch is
@@ -87,12 +89,12 @@ def kNearestNeighbors(node, query, k, heap):
     near_branch = node.left if diff < 0 else node.right
     far_branch  = node.right if diff < 0 else node.left
         
-    kNearestNeighbors(near_branch, query, k, heap)
+    kNearestNeighbors(near_branch, query, k, heap, increment)
     
     # Far branch mathematical condition to satisfy:
     # 
     if len(heap) < k or abs(diff) < -heap[0][0]:
-        kNearestNeighbors(far_branch, query, k, heap)
+        kNearestNeighbors(far_branch, query, k, heap, increment)
 
 # ------------------------------- SORT ------------------------------- #
         
@@ -119,7 +121,7 @@ def rknn_id(dict_in, query, k):
     
     # Interpret heap data to sort into list of IDs
     sorted_neighbors = sorted(heap, key=lambda x: -x[0])
-    neighbor_ids = [node.id for dist, node in sorted_neighbors]
+    neighbor_ids = [node.id for dist, increment, node in sorted_neighbors]
     
     # end_time = time.time()
     # execution_time = end_time-start_time
@@ -138,41 +140,41 @@ def rknn_id(dict_in, query, k):
 # for i in nodes:
 #     print(i.id, i.point)
 
-# # Chat-generated test cases
-# data_dict = {
-#   1: [8.44, 6.25, 2.10],
-#   2: [1.32, 9.87, 5.76],
-#   3: [4.91, 3.45, 7.80],
-#   4: [9.65, 0.55, 1.10],
-#   5: [2.34, 6.78, 9.01],
-#   6: [7.12, 8.90, 4.56],
-#   7: [5.67, 2.22, 3.33],
-#   8: [3.11, 7.77, 0.99]
-# }
-# queries = [
-#     [8.0,6.0,2.0],
-#     [2.0,7.0,8.0],
-#     [5.5,2.0,3.0],
-#     [3.0,8.0,1.0],
-#     [9.0,1.0,1.0]
-# ]
+# Chat-generated test cases
+data_dict = {
+  1: [8.44, 6.25, 2.10],
+  2: [1.32, 9.87, 5.76],
+  3: [4.91, 3.45, 7.80],
+  4: [9.65, 0.55, 1.10],
+  5: [2.34, 6.78, 9.01],
+  6: [7.12, 8.90, 4.56],
+  7: [5.67, 2.22, 3.33],
+  8: [3.11, 7.77, 0.99]
+}
+queries = [
+    [8.0,6.0,2.0],
+    [2.0,7.0,8.0],
+    [5.5,2.0,3.0],
+    [3.0,8.0,1.0],
+    [9.0,1.0,1.0]
+]
 
-# nams = []
-# addNodes(data_dict, nams)
-# root = buildTree(nams, 0)
+nams = []
+addNodes(data_dict, nams)
+root = buildTree(nams, 0)
 
-# # Chat generated print-assist
-# def printTree(node, depth=0):
-#     if node is None:
-#         return
-#     print("  " * depth + f"ID={node.id}, Point={node.point}, Depth={node.axis}")
-#     printTree(node.left, depth + 1)
-#     printTree(node.right, depth + 1)
+# Chat generated print-assist
+def printTree(node, depth=0):
+    if node is None:
+        return
+    print("  " * depth + f"ID={node.id}, Point={node.point}, Depth={node.axis}")
+    printTree(node.left, depth + 1)
+    printTree(node.right, depth + 1)
 
-# # Print the constructed tree
-# printTree(root)
+# Print the constructed tree
+printTree(root)
 
 
-# # Expect 1, 5, 7, 8, 4
-# for q in queries:
-#     print(f"Query {q} -> Nearest ID: {rknn_id(data_dict, q, 2)}")
+# Expect 1, 5, 7, 8, 4
+for q in queries:
+    print(f"Query {q} -> Nearest ID: {rknn_id(data_dict, q, 2)}")
