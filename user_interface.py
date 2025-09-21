@@ -106,10 +106,23 @@ if len(st.session_state["movies"]) >= 2 and genres:
 if st.session_state["results"]:
     st.subheader("Recommendations:")
 
-    df = pd.DataFrame(
-        list(st.session_state["results"].items()),
-        columns=["Movie", "Score"]
-    )
+    movies = [
+        {"id": 1311031, "title": "Demon Slayer: Infinity Castle", "rating": 7.7, "poster": "https://image.tmdb.org/t/p/w200/sUsVimPdA1l162FvdBIlmKBlWHx.jpg"},
+        {"id": 755898, "title": "War of the Worlds", "rating": 4.3, "poster": "https://image.tmdb.org/t/p/w200/yvirUYrva23IudARHn3mMGVxWqM.jpg"},
+        {"id": 1038392, "title": "The Conjuring: Last Rites", "rating": 6.6, "poster": "https://image.tmdb.org/t/p/w200/29ES27icY5CzTcMhlz1H4SdQRod.jpg"},
+        {"id": 123456, "title": "Inception", "rating": 8.8, "poster": "https://image.tmdb.org/t/p/w200/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg"},
+        {"id": 654321, "title": "Interstellar", "rating": 8.6, "poster": "https://image.tmdb.org/t/p/w200/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg"},
+    ] 
+
+    for movie in movies:
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            st.image(movie["poster"], width=120)
+        with col2:
+            st.markdown(f"**{movie['title']}**")
+            st.markdown(f"⭐ Rating: {movie['rating']}/10")
+            st.markdown(f"🎬 TMDb ID: {movie['id']}")
+        st.divider()
 
     st.dataframe(df, use_container_width=True)
 
