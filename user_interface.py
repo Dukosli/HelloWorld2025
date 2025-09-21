@@ -150,7 +150,7 @@ if st.session_state["results"]:
         with col2:
             st.markdown(f"**{movie['title']}**")
             st.markdown(f"⭐ Rating: {movie['rating']}/10")
-            st.write(f"{movie['overview']}")
+            st.write(movie["overview"])
         st.divider()
 
 if st.session_state["locked"]:
