@@ -161,7 +161,7 @@ if st.session_state["results"]:
         ideal_vector = get_ideal_movie_vector(st.session_state["movies"])
         movie_id_vector = get_movieid_vector_dict(st.session_state["genres"])
 
-        if movie_id_vector is None:
+        if movie_id_vector == "error":
             st.toast("Your query parameters are too specific to recommend 5 movies!")
         else: 
             recommended_ids = rknn_id(dict_in=movie_id_vector, query=ideal_vector, k=10)
