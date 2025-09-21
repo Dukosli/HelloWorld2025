@@ -3,12 +3,12 @@ import numpy as np
 
 # Organization
 class Node:
-    def __init__(self, i_key, v_val, d):
+    def __init__(self, i_key, v_val, depth):
         self.id = i_key
         self.point = v_val
+        self.axis = depth
         self.left = None
         self.right = None
-        self.axis = d
         
 def newNode(in_key, vec_val, d):
     return Node(in_key, vec_val, d)
