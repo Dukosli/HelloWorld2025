@@ -4,7 +4,7 @@ import pandas as pd
 
 
 df = pd.read_csv("movies.csv")
-movie_list = df("title").tolist()
+movie_list = df["title"].tolist()
 
 st.session_state.setdefault("movies", [])
 st.session_state.setdefault("genre", [])
