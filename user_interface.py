@@ -192,8 +192,8 @@ if st.session_state["results"]:
 if st.session_state["locked"]:
     st.button("Restart", on_click=restart)
 
-col_1, col_2 = st.columns([1, 1, 8])
-with col_1:
+coll_1, coll_2 = st.columns([1, 1, 8])
+with coll_1:
     st.markdown("Credits:")
-with col_2:
+with coll_2:
     st.image("movide_db_img.svg", width=120)
