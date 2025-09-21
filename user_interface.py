@@ -144,7 +144,7 @@ if st.session_state["results"]:
     for movie in movies:
         col1, col2 = st.columns([1, 3])
         with col1:
-            st.image(movie["poster"], width=120)
+            st.image(movie["poster"])
         with col2:
             st.markdown(f"**{movie['title']}**")
             st.markdown(f"⭐ Rating: {movie['rating']}/10")
