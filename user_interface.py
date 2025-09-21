@@ -192,7 +192,7 @@ if st.session_state["results"]:
 if st.session_state["locked"]:
     st.button("Restart", on_click=restart)
 
-col_1, col_2, _ = st.columns([1, 1, 10])
+col_1, col_2, _ = st.columns([1, 1, 16])
 with col_1:
     st.markdown("###### Credits:")
 with col_2:
