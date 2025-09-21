@@ -100,7 +100,7 @@ with col2:
 if st.session_state["movies"]:
     st.subheader("Movies:")
     for m in st.session_state["movies"]:
-        st.write(f"{m['name']} - {m['rating']}/10")
+        st.write(f"**{m['name']}** --- {m['rating']}/10")
 
 if len(st.session_state["movies"]) >= 2 and genres:
     st.button(f"Recommend Me 5 Movies", on_click=run_recommend, disabled=st.session_state["locked"])
@@ -144,7 +144,7 @@ if st.session_state["results"]:
     for movie in movies:
         col1, col2 = st.columns([1, 3])
         with col1:
-            st.image(movie["poster"])
+            st.image(movie["poster"], use_column_width=True)
         with col2:
             st.markdown(f"**{movie['title']}**")
             st.markdown(f"⭐ Rating: {movie['rating']}/10")
