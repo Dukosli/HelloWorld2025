@@ -7,9 +7,9 @@ st.markdown("""
 <style>
 /* default state */
 .stButton > button {
-  background-color: #E50914;   /* your color */
+  background-color: #0A84FF;
   color: #ffffff;
-  border: 1px solid #E50914;
+  border: 1px solid #0A84FF;
   border-radius: 10px;
 }
 /* hover */
