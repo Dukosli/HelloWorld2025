@@ -41,6 +41,21 @@ div[data-testid="stMarkdownContainer"] {
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+/* Ensure images don't overflow their column */
+.stImage img { max-width: 100% !important; height: auto !important; }
+
+/* Helper class for overviews */
+.overview {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal !important;
+  line-height: 1.5;
+}
+</style>
+""", unsafe_allow_html=True)
+
 df = pd.read_csv("movies.csv")
 movie_list = df["title"].tolist()
 
@@ -155,15 +170,17 @@ if st.session_state["results"]:
     ]
 
     for movie in movies:
-
-        col1, col2 = st.columns([1, 4])
+        col1, col2 = st.columns([1, 4], vertical_alignment="top")
         with col1:
-            st.image(movie["poster"], width=240)
+            # Let the image size itself to the column width
+            st.image(movie["poster"], use_container_width=True)
         with col2:
             st.markdown(f"**{movie['title']}**")
             st.markdown(f"⭐ Rating: {movie['rating']}/10")
-            st.write(movie["overview"])
+            # Force wrap on the overview
+            st.markdown(f"<div class='overview'>{movie['overview']}</div>", unsafe_allow_html=True)
         st.divider()
+
 
 if st.session_state["locked"]:
     st.button("Restart", on_click=restart)
