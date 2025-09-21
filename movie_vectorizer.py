@@ -186,6 +186,9 @@ def get_ideal_movie_vector(movies_dict_list):
     for movie_rating_adj in movie_ratings_adj:
         movie_rating_adj_sum += movie_rating_adj
 
+    if movie_rating_adj_sum == 0:
+        return [0,0,0,0,0,0,0,0,0,0,10]
+
     # for movie_rating_adj in movie_ratings_adj:
     #     for quality in movie_vector:
     #         movie-vectors_adj.append(movie_rating * quality)
