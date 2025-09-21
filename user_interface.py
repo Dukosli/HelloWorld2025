@@ -194,6 +194,6 @@ if st.session_state["locked"]:
 
 col_1, col_2, _ = st.columns([1, 3, 14])
 with col_1:
-    st.markdown("###### Credits:")
+    st.markdown("<div style='padding-top:20px; font-weight:600;'>Credits:</div>", unsafe_allow_html=True)
 with col_2:
     st.image("movide_db_img.svg", width=120)
