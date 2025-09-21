@@ -3,13 +3,15 @@ import pandas as pd
 
 
 
+df = pd.read_csv("movies.csv")
+movie_list = df("title").tolist()
+
 st.session_state.setdefault("movies", [])
 st.session_state.setdefault("genre", [])
 st.session_state.setdefault("movie_name", "")
 st.session_state.setdefault("movie_rating", 1)
 st.session_state.setdefault("locked", False)
 st.session_state.setdefault("results", None)
-movie_list = []
 
 
 
@@ -61,7 +63,7 @@ genres = st.multiselect("Enter a genre:", [
     'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western'
     ], key="genre", disabled=st.session_state["locked"])
 # movie_name = st.selectbox("Enter a movie name:", movie_list, key="movie_name", disabled=st.session_state["locked"])
-movie_name = st.text_input("Enter a movie name:", key="movie_name", disabled=st.session_state["locked"])
+movie_name = st.selectbox("Enter a movie name:", movie_list, key="movie_name", disabled=st.session_state["locked"])
 movie_rating = st.slider("Rate the movie:", 1, 10, 1, key="movie_rating", disabled=st.session_state["locked"])
 
 col1, col2, _ = st.columns([1.5, 1.5, 7])
