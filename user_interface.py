@@ -77,9 +77,9 @@ def restart():
 st.title("Movie Recommender")
 
 st.write(
-    "#### Tell us what kinds of movies you’re in the mood for!\n"
-    "#### Pick a few genres, then add at least 2 movies you’ve seen from those genres along with your ratings.\n"
-    "#### Once you’re done, we’ll recommend 5 movies we think you’ll love."
+    "##### 1. Tell us what kinds of movies you’re in the mood for!\n"
+    "##### 2. Pick a few genres, then add at least 2 movies you’ve seen from those genres along with your ratings.\n"
+    "##### 3. Once you’re done, we’ll recommend 5 movies we think you’ll love."
 )
 
 genres = st.multiselect("Enter a genre:", [
