@@ -156,7 +156,7 @@ if st.session_state["results"]:
 
     for movie in movies:
 
-        col1, col2 = st.columns([1, 3])
+        col1, col2 = st.columns([1, 4])
         with col1:
             st.image(movie["poster"], width=240)
         with col2:
