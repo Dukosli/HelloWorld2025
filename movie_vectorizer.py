@@ -220,6 +220,7 @@ def get_ideal_movie_vector(movies_dict_list):
 def get_movieid_vector_dict(genres_asked): #genres_asked is a list of strings
     df = pd.read_csv('movies.csv')
     df = df[['id', 'genre_ids', 'title', 'genre_ids_str', 'movie_vector']]
+    filtered_df = df
 
     keys = ['Action', 'Adventure', 'Animation', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'History', 'Horror', 
     'Music', 'Mystery', 'Romance', 'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western']
@@ -231,7 +232,7 @@ def get_movieid_vector_dict(genres_asked): #genres_asked is a list of strings
         genres_asked_id.append(str(genre_ids_dict[genre]))
 
     for genre_id in genres_asked_id:
-        filtered_df = df[df["genre_ids_str"].str.contains(str(genre_id), na=False)]
+        filtered_df = filtered_df[filtered_df["genre_ids_str"].str.contains(str(genre_id), na=False)]
     
     id_keys = filtered_df['id'].tolist()
     # movie_vector_values = ast.literal_eval(filtered_df['movie_vector'])
