@@ -41,6 +41,10 @@ st.session_state.setdefault("results", None)
 
 
 
+BASE_IMG = "https://image.tmdb.org/t/p/w200"
+def poster_url_from_path(p):
+    return f"{BASE_IMG}{p}" if isinstance(p, str) and p else None
+
 def add_movie():
     name = st.session_state["movie_name"]
     rating = st.session_state["movie_rating"]
@@ -52,8 +56,34 @@ def add_movie():
         st.toast("Already added that movie")
         return
     
-    st.session_state["movies"].append({"name": name, "rating": rating})
+    match = df[df["title"].str.lower() == name_norm]
+    poster = poster_url_from_path(match.iloc[0]["poster_path"]) if not match.empty else None
+
+    st.session_state["movies"].append({
+        "name": name,
+        "rating": rating,
+        "poster": poster,
+    })
+
     st.session_state["movie_name"] = ""
+
+def render_movie_grid():
+    if not movies:
+        return
+    
+    cols = None
+
+    for i, m in enumerate(movies):
+
+        if i % 4 == 0:
+            cols = st.columns(4, gap="medium")
+        with cols[i % 4]:
+            if m.get("poster"):
+                st.image(m["poster"], use_container_width=True)
+            else:
+                st.write("No image")
+            st.markdown(f"**{m['name']}**")
+            st.markdown(f"⭐ {m['rating']}/10")
 
 def remove_movie():
     st.session_state["movies"].clear()
@@ -77,9 +107,10 @@ def restart():
 st.title("Movie Recommender")
 
 st.write(
-    "##### 1. Tell us what kinds of movies you’re in the mood for!\n"
-    "##### 2. Pick a few genres, then add at least 2 movies you’ve seen from those genres along with your ratings.\n"
-    "##### 3. Once you’re done, we’ll recommend 5 movies we think you’ll love."
+    "#### Tell us what kinds of movies you’re in the mood for:\n"
+    "##### 1. Pick a few genres. With these, we'll fill recommendations that include all these tags... and more!\n"
+    "##### 2. Next, add at least TWO movies you’ve seen with these genres and rate them.\n"
+    "##### 3. Once you're done, hit \"Recommend 5\" and we'll recommend five movies we think you'll love.\n"
 )
 
 genres = st.multiselect("Enter a genre:", [
@@ -100,13 +131,12 @@ with col_2:
 
 if st.session_state["movies"]:
     st.subheader("Movies:")
-    for m in st.session_state["movies"]:
-        st.write(f"**{m['name']}** --- {m['rating']}/10")
+    render_movie_grid(st.session_state["movies"])
 
 col_1, _, _ = st.columns([1.5, 1.5, 7])
 with col_1:
     if len(st.session_state["movies"]) >= 2 and genres:
-        st.button(f"Recommend Me 5 Movies", on_click=run_recommend, disabled=st.session_state["locked"])
+        st.button(f"Recommend 5", on_click=run_recommend, disabled=st.session_state["locked"])
 
 if st.session_state["results"]:
     st.subheader("Recommendations:")
