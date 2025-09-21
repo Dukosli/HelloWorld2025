@@ -29,6 +29,18 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+st.markdown("""
+<style>
+
+div[data-testid="stMarkdownContainer"] {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal !important;
+  line-height: 1.4;
+}
+</style>
+""", unsafe_allow_html=True)
+
 df = pd.read_csv("movies.csv")
 movie_list = df["title"].tolist()
 
