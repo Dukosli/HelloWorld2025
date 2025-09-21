@@ -77,16 +77,29 @@ def render_movie_grid(movies, n):
     
     cols = None
 
-    for i, m in enumerate(movies):
-        if i % n == 0:
-            cols = st.columns(n, gap="medium")
-        with cols[i % n]:
-            if m.get("poster"):
-                st.image(m["poster"], use_container_width=True)
-            else:
-                st.write("No image")
-            st.markdown(f"**{m['name']}**")
-            st.markdown(f"⭐ {m['rating']}/10")
+    if len(enumerate(movies)) == 3:
+        for i, m in enumerate(movies):
+            if i % n == 0:
+                cols = st.columns(n, gap="medium")
+            with cols[i % n]:
+                if m.get("poster"):
+                    st.image(m["poster"], use_container_width=True)
+                else:
+                    st.write("No image")
+                st.markdown(f"**{m['name']}**")
+                st.markdown(f"⭐ {m['rating']}/10")
+    elif len(enumerate(movies)) == 4:
+        for i, m, s in enumerate(movies):
+            if i % n == 0:
+                cols = st.columns(n, gap="medium")
+            with cols[i % n]:
+                if m.get("poster"):
+                    st.image(m["poster"], use_container_width=True)
+                else:
+                    st.write("No image")
+                st.markdown(f"**{m['name']}**")
+                st.markdown(f"⭐ {m['rating']}/10")
+                st.markdown(f"{'overview'}")
 
 
 def remove_movie():
@@ -178,15 +191,7 @@ if st.session_state["results"]:
         }
     ]
 
-    for movie in movies:
-        col_1, col_2 = st.columns([1, 4])
-        with col_1:
-            st.image(movie["poster"], use_container_width=True)
-        with col_2:
-            st.markdown(f"**{movie['title']}**")
-            st.markdown(f"⭐ Rating: {movie['rating']}/10")
-            st.markdown(f"{movie['overview']}")
-        st.divider()
+    render_movie_grid(movies, 5)
 
 
 if st.session_state["locked"]:
