@@ -1,5 +1,6 @@
 import heapq as hq
 import numpy as np
+# import time
 
 # Organization
 class Node:
@@ -161,6 +162,8 @@ def sortByDepth(node_in, depth):
 # ------------------------------- PRIMARY FUNCTIONALITY ------------------------------- #
 
 def rknn_id(dict_in, query, k):
+    # start_time = time.time();
+    
     # Convert input dictionary to Node[]
     nams = []
     addNodes(dict_in, nams)
@@ -175,6 +178,10 @@ def rknn_id(dict_in, query, k):
     # Interpret heap data to sort into list of IDs
     sorted_neighbors = sorted(heap, key=lambda x: -x[0])
     neighbor_ids = [node.id for dist, node in sorted_neighbors]
+    
+    # end_time = time.time()
+    # execution_time = end_time-start_time
+    # print(execution_time)
     
     return neighbor_ids
 
