@@ -119,16 +119,6 @@ def restart():
 
 
 
-col_1, col_2, col_3 = st.columns([1, 1, 1])
-with col_2:
-    st.markdown(
-        """
-        <div style="display: flex; justify-content: center;">
-            <img src="logo for movie recom.png" width="200">
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 st.markdown("<h1 style='text-align: center; color: #0A84FF;'>Movie Recommender</h1>", unsafe_allow_html=True)
 
 st.write(
