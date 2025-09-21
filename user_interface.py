@@ -71,16 +71,16 @@ def add_movie():
 
     st.session_state["movie_name"] = ""
 
-def render_movie_grid(movies):
+def render_movie_grid(movies, n):
     if not movies:
         return
     
     cols = None
 
     for i, m in enumerate(movies):
-        if i % 8 == 0:
-            cols = st.columns(8, gap="medium")
-        with cols[i % 8]:
+        if i % n == 0:
+            cols = st.columns(n, gap="medium")
+        with cols[i % n]:
             if m.get("poster"):
                 st.image(m["poster"], use_container_width=True)
             else:
@@ -135,7 +135,7 @@ with col_2:
 
 if st.session_state["movies"]:
     st.subheader("Movies:")
-    render_movie_grid(st.session_state["movies"])
+    render_movie_grid(st.session_state["movies"], 8)
 
 col_1, _, _ = st.columns([1.5, 1.5, 7])
 with col_1:
