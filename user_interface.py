@@ -117,31 +117,29 @@ st.write(
     "###### 3. Once you're done, hit \"Recommend 5\" and we'll recommend five movies we think you'll love.\n"
 )
 
-genres = st.multiselect("Enter a genre:", [
-    'Action', 'Adventure', 'Animation', 'Comedy', 
-    'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 
-    'History', 'Horror', 'Music', 'Mystery', 'Romance', 
-    'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western'
-    ], key="genre", disabled=st.session_state["locked"])
+with st.container(border=True):
+    genres = st.multiselect("Enter a genre:", [
+        'Action', 'Adventure', 'Animation', 'Comedy', 
+        'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 
+        'History', 'Horror', 'Music', 'Mystery', 'Romance', 
+        'Science Fiction', 'TV Movie', 'Thriller', 'War', 'Western'
+        ], key="genre", disabled=st.session_state["locked"])
 
-movie_name = st.selectbox("Enter a movie name:", movie_list, key="movie_name", disabled=st.session_state["locked"])
+    movie_name = st.selectbox("Enter a movie name:", movie_list, key="movie_name", disabled=st.session_state["locked"])
 
-col_1, col_2, col_3 = st.columns([7,1.5, 1.5])
-with col_1:
-    movie_rating = st.slider("Rate the movie:", 1, 10, 1, key="movie_rating", disabled=st.session_state["locked"])
-with col_2:
-    st.button("Add Movie", use_container_width=True, on_click=add_movie, disabled=st.session_state["locked"])
-with col_3:
-    st.button("Remove All Movies", use_container_width=True, on_click=remove_movie, disabled=st.session_state["locked"] or not st.session_state["movies"])
+    col_1, col_2, col_3, col_4 = st.columns([3, 1, 1, 1])
+    with col_1:
+        movie_rating = st.slider("Rate the movie:", 1, 10, 1, key="movie_rating", disabled=st.session_state["locked"])
+    with col_2:
+        st.button("Add Movie", use_container_width=True, on_click=add_movie, disabled=st.session_state["locked"])
+    with col_3:
+        st.button("Remove All Movies", use_container_width=True, on_click=remove_movie, disabled=st.session_state["locked"] or not st.session_state["movies"])
+    with col_4:
+        st.button(f"Recommend 5", on_click=run_recommend, disabled=st.session_state["locked"] or len(st.session_state["movies"]) < 2 or not genres)
 
 if st.session_state["movies"]:
-    st.subheader("Movies:")
-    render_movie_grid(st.session_state["movies"], 8)
-
-col_1, _, _ = st.columns([1.5, 1.5, 7])
-with col_1:
-    if len(st.session_state["movies"]) >= 2 and genres:
-        st.button(f"Recommend 5", on_click=run_recommend, disabled=st.session_state["locked"])
+        st.subheader("Movies:")
+        render_movie_grid(st.session_state["movies"], 8)
 
 if st.session_state["results"]:
     st.subheader("Recommendations:")
