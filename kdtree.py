@@ -162,7 +162,7 @@ def sortByDepth(node_in, depth):
 
 # ------------------------------- PRIMARY FUNCTIONALITY ------------------------------- #
 
-def rkNN_id(dict_in, query, k):
+def rknn_id(dict_in, query, k):
     # Convert input dictionary to Node[]
     nams = []
     addNodes(dict_in, nams)
