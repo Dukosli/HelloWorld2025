@@ -3,6 +3,8 @@ import pandas as pd
 
 
 
+st.set_page_config(page_title="Movie Recommender", page_icon="🎬", layout="wide")
+
 st.markdown("""
 <style>
 
@@ -146,6 +148,7 @@ if st.session_state["results"]:
         with col2:
             st.markdown(f"**{movie['title']}**")
             st.markdown(f"⭐ Rating: {movie['rating']}/10")
+            st.markdown(f"{movie['overview']}")
         st.divider()
 
 if st.session_state["locked"]:
