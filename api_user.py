@@ -10,7 +10,7 @@ iterations = 0
 movies_dict = discover.movie(sort_by='popularity.desc', page=1)
 movies_df = pd.DataFrame(movies_dict['results'])
 
-while iterations < 3:
+while iterations < 9:
     for i in range(50):
         movies_dict = discover.movie(sort_by='popularity.desc', page=(iterations)*(50)+i+2)
         new_movies_df = pd.DataFrame(movies_dict['results'])
