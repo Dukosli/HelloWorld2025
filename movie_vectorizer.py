@@ -3,15 +3,16 @@ import tmdbsimple as tmdb
 import ast
 tmdb.API_KEY = '3dd5f096f8f0bfcfd63b8a8f3d5cb7dd'
 
-df = pd.read_csv('movies.csv')
-df = df[['id', 'genre_ids', 'title']]
+# df = pd.read_csv('movies.csv')
+# df = df[['id', 'genre_ids', 'title']]
 
 # print(df.head())
 
-genres = tmdb.Genres()
-genre_names_id_df = pd.DataFrame(genres.movie_list()['genres'])
+# genres = tmdb.Genres()
+# genre_names_id_df = pd.DataFrame(genres.movie_list()['genres'])
 # genre_list = genre_names_id_df['name'].tolist()
 # print(genre_names_id_df)
+# This section of code was used to get the genre names and genre_ids for the first time to see what they were
 
 # The different genres are: 'Action' (28), 'Adventure' (12), 'Animation' (16), 'Comedy' (35), 'Crime' (80), 'Documentary' (99), 
 # 'Drama' (18), 'Family' (10751), 'Fantasy' (14), 'History' (36), 'Horror' (27), 'Music' (10402), 'Mystery' (9648), 
@@ -59,7 +60,7 @@ def movie_vectorizer(movie_id):
         "Epicness": 0
     }
 
-    # Mapping: genre_code → quality modifications
+    # Dictionary containing inner dictionaries for each genre code at its corresponding change in the quality values
     genre_effects = {
         28: {"Excitement": +3, "Pacing": +2, "Emotional Depth": -1, "Humor": 0,
             "Mental Stimulation": -2, "Darkness": 0, "World-Building": +1,
@@ -217,7 +218,7 @@ def get_ideal_movie_vector(movies_dict_list):
 
     return ideal_movie_vector
 
-def get_movieid_vector_dict(genres_asked): #genres_asked is a list of strings
+def get_movieid_vector_dict(genres_asked): #genres_asked is a list of strings of the genre names, such as "Action" or "Adventure"
     df = pd.read_csv('movies.csv')
     df = df[['id', 'genre_ids', 'title', 'genre_ids_str', 'movie_vector']]
     filtered_df = df
@@ -256,10 +257,15 @@ list_of_test_movies = [movie_1, movie_2, movie_3, movie_4, movie_5]
 # list_of_genres = ['Action']
 # print(get_movieid_vector_dict(list_of_genres))
 
-df1 = pd.read_csv('movies.csv')
-df1 = df1[df1['adult'] == False]
-df1["movie_vector"] = df["id"].apply(lambda x: movie_vectorizer(x))
-df1.to_csv('movies.csv', index=False)
+
+if __name__ == "__main__":
+    df1 = pd.read_csv('movies.csv')
+    df1 = df1[df1['adult'] == False]
+    df1["movie_vector"] = df["id"].apply(lambda x: movie_vectorizer(x))
+    df1.to_csv('movies.csv', index=False)
+    # This section reads in the existing movies.csv file created by api_user.py and filters to remove any movies where adult isn't false
+    # Then for each movie it generates the movie vector and saves it as a new column called "movie_vector" before writing to movies.csv
+    # to replace the old file with this new file that includes the movie_vector column
 
 
 
