@@ -1,4 +1,5 @@
-﻿# HelloWorld2025
+[![No load :(](https://img.youtube.com/vi/9vFncwSJiwc/0.jpg)](https://www.youtube.com/watch?v=9vFncwSJiwc)
+# HelloWorld2025
 ## Inspiration
 Oftentimes, the only movies people know about are the ones with high advertising budgets, and streaming services recommend movies based on what profits them the most, not what is most enjoyable for YOU to watch. Meanwhile, AI chatbots usually recommend picks that are popular online. So, we developed a program to recommend movies using our unique rating method, helping you find the best movies that suit your tastes.
 ## What it does
@@ -55,3 +56,4 @@ We have many plans for the future of Movie Recommender:
 - So much more
 ## Resources
 Links: [Devpost Link](https://devpost.com/software/movie-recommender-y1i3zc), [Streamlit Link](https://hw25movierecommender.streamlit.app/)
+
